@@ -1,0 +1,6 @@
+# ignore mac ds_store files
+./DS_Store
+**/.DS_Store
+
+# venv
+/.venv/
