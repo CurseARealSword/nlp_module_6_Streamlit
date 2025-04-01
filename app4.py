@@ -5,7 +5,7 @@ import streamlit as st
 # check whether it's running cloud or local to determine sqlite3 version
 
 # Check the secret setting (set USE_PYSQLITE3 = "true" in your Streamlit Cloud secrets)
-use_pysqlite3 = st.secrets.get("USE_PYSQLITE3", "false").lower() == "true"
+use_pysqlite3 = str(st.secrets.get("USE_PYSQLITE3", "false")).lower() == "true"
 
 
 if use_pysqlite3:
