@@ -1,5 +1,6 @@
 # imports
 import os, sys
+import streamlit as st
 
 # check whether it's running cloud or local to determine sqlite3 version
 
@@ -12,7 +13,6 @@ else:
 
 
 import random
-import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
