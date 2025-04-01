@@ -1,14 +1,22 @@
 # imports
-__import__('pysqlite3')
-import sys
-import random
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import os, sys
 
+# check whether it's running cloud or local to determine sqlite3 version
+
+if os.getenv("USE_PYSQLITE3", "false").lower() == "true":
+    __import__('pysqlite3')
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+    api_key = st.secrets["OPENROUTER_API_KEY"]  # streamlit cloud
+else:
+    api_key = os.getenv("OPENROUTER_API_KEY") # local
+
+
+import random
 import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
-import requests, json, os, chromadb
+import requests, json, chromadb
 
 # load Chroma DB
 # chroma_client = chromadb.PersistentClient(path="fantasy_high_db")
@@ -81,13 +89,16 @@ sample_queries = [
 placeholder_query = random.choice(sample_queries)
 
 # Text input shows the current session state's question (populated by button clicks)
-question = st.text_input("Enter your question:", placeholder=placeholder_query)
+# question = st.text_input("Enter your question:", placeholder=placeholder_query)
+st.text_input("Enter your question:", placeholder=placeholder_query, key="question_input")
+
 
 # debug: get question variable after user input
-st.write("User question:", question)
+# st.write("User question:", question)
 
 
 if st.button("Get Answer"):
+    question = st.session_state.get("question_input", "").strip()
     if question:
         results = collection.query(
             query_texts=[question],
@@ -100,7 +111,7 @@ if st.button("Get Answer"):
         st.write("Retrieved context:", context)
 
         # api_key = os.getenv("OPENROUTER_API_KEY") # local
-        api_key = st.secrets["OPENROUTER_API_KEY"]  # streamlit cloud
+        # api_key = st.secrets["OPENROUTER_API_KEY"]  # streamlit cloud
         url = "https://openrouter.ai/api/v1/chat/completions"
         headers = {
             "Authorization": f"Bearer {api_key}",
