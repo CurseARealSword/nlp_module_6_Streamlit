@@ -4,7 +4,11 @@ import streamlit as st
 
 # check whether it's running cloud or local to determine sqlite3 version
 
-if st.secrets("USE_PYSQLITE3", "false").lower() == "true":
+# Check the secret setting (set USE_PYSQLITE3 = "true" in your Streamlit Cloud secrets)
+use_pysqlite3 = st.secrets.get("USE_PYSQLITE3", "false").lower() == "true"
+
+
+if use_pysqlite3:
     __import__('pysqlite3')
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
     api_key = st.secrets["OPENROUTER_API_KEY"]  # streamlit cloud
