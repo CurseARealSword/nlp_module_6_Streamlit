@@ -3,8 +3,9 @@ import os, sys
 import streamlit as st
 
 # check whether it's running cloud or local to determine sqlite3 version
+# streamlit cloud has a environment variable USE_PYSQLITE3 = true
 
-# Check the secret setting (set USE_PYSQLITE3 = "true" in your Streamlit Cloud secrets)
+# need to be converted to string because bool has no 'lower' attribute
 use_pysqlite3 = str(st.secrets.get("USE_PYSQLITE3", "false")).lower() == "true"
 
 
@@ -111,8 +112,8 @@ if st.button("Get Answer"):
         )
         top_chunks = results["documents"][0]
         context = "\n".join(top_chunks)
-        #debug
-        st.write("Retrieved context:", context)
+        # debug
+        # st.write("Retrieved context:", context)
 
         # api_key = os.getenv("OPENROUTER_API_KEY") # local
         # api_key = st.secrets["OPENROUTER_API_KEY"]  # streamlit cloud
