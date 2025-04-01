@@ -83,6 +83,10 @@ placeholder_query = random.choice(sample_queries)
 # Text input shows the current session state's question (populated by button clicks)
 question = st.text_input("Enter your question:", placeholder=placeholder_query)
 
+# debug: get question variable after user input
+st.write("User question:", question)
+
+
 if st.button("Get Answer"):
     if question:
         results = collection.query(
@@ -93,7 +97,7 @@ if st.button("Get Answer"):
         top_chunks = results["documents"][0]
         context = "\n".join(top_chunks)
         #debug
-        # st.write("Retrieved context:", context)
+        st.write("Retrieved context:", context)
 
         # api_key = os.getenv("OPENROUTER_API_KEY") # local
         api_key = st.secrets["OPENROUTER_API_KEY"]  # streamlit cloud
