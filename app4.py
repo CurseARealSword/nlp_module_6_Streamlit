@@ -80,22 +80,29 @@ st.title("Fantasy High Trivia Bot")
 st.markdown('[Don\'t know what to ask? Check out the wiki!](https://dimension20.fandom.com/wiki/Fantasy_High)')
 
 # initialize session state for question if not present
-if 'question' not in st.session_state:
-    st.session_state.question = ""
+if 'question_input' not in st.session_state:
+    st.session_state.question_input = ""
 
 
 # Random placeholder
 sample_queries = [
     "Who is Goldenhoard?",
-    "How did Fabian acquire The Hangman?",
-    "Tell me about Fallinel!"
+    "Tell me about Kei Lumennura!",
+    "What does Bud Cubby say about laws?",
+    "Tell me about Johnny Spell's Gang!",
+    "Who killed Mr. Gibbons?",
+    "What do you know about Gilear Faeth?",
+    "What does Brennan usually say at the start of the episodes?",
+    "What is the Jacket of Useful Things?"
+
     ]
 
-placeholder_query = random.choice(sample_queries)
+if 'placeholder' not in st.session_state:
+        st.session_state.placeholder = random.choice(sample_queries)
 
 # Text input shows the current session state's question (populated by button clicks)
 # question = st.text_input("Enter your question:", placeholder=placeholder_query)
-st.text_input("Enter your question:", placeholder=placeholder_query, key="question_input")
+st.text_input("Enter your question:", placeholder=st.session_state.placeholder, key="question_input")
 
 
 # debug: get question variable after user input
