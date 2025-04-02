@@ -13,4 +13,4 @@
 ./app.py.save
 
 #secrets
-./.streamlit/secrets.toml
+.streamlit/secrets.toml
